@@ -12,9 +12,14 @@ table.table.table-hover
     tr
       th = Task.human_attribute_name(:description)
       td = simple_format(h(@task.description), {}, sanitize: false, wrapper_tag: "div")
+      / td = safe_join(@task.description.split("\n"), tag(:br)) 複数行の改行を表示したい時はsafe_join
+      / td = simple_format(@task.description, {}, sanitize: false, wrapper_tag: "div") sanitizeをfalseにしている時はHTMLエスケープしてね
+      / td = @task.description タグでwrapしてあげないと改行表示されないよ
     tr
       th = Task.human_attribute_name(:created_at)
       td = @task.created_at
     tr
       th = Task.human_attribute_name(:updated_at)
       td = @task.updated_at
+
+= link_to '編集', edit_task_path, class: 'btn btn-primary mar-3'
