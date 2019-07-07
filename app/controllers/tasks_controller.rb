@@ -12,9 +12,12 @@ class TasksController < ApplicationController
   end
 
   def create
-    task = Task.new(task_params)
-    task.save!
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を登録しました。"
+    @task = Task.new(task_params) # インスタンス変数を使う理由はビューに渡すことが出来る。入力内容とエラー箇所を渡せる。
+    if @task.save
+      redirect_to tasks_url, notice: "タスク「#{task.name}」を登録しました。"
+    else
+      render :new
+    end
   end
 
   def edit
