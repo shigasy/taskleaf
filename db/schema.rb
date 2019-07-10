@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2019_07_08_103833) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "{:null=>false, :index=>true}_id"
-    t.index ["{:null=>false, :index=>true}_id"], name: "index_tasks_on_{:null=>false, :index=>true}_id"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
