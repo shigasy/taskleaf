@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.all
+    # @tasks = Task.all
+    @tasks = current_user.tasks # ログインしているユーザーに紐づくTaskだけ表示
   end
 
   def show
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 
   def new
@@ -12,7 +13,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    # @task = Task.new(task_params.merge(user_id: current_user)) # インスタンス変数を使う理由はビューに渡すことが出来る。入力内容とエラー箇所を渡せる。
+    # @task = Task.new(task_params.merge(user_id: current_user.id)) # インスタンス変数を使う理由はビューに渡すことが出来る。入力内容とエラー箇所を渡せる。
     @task = current_user.tasks.new(task_params) # インスタンス変数を使う理由はビューに渡すことが出来る。入力内容とエラー箇所を渡せる。
     if @task.save
       redirect_to tasks_url, notice: "タスク「#{@task.name}」を登録しました。"
@@ -22,17 +23,17 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 
   def update
-    task = Task.find(params[:id])
+    task = current_user.tasks.find(params[:id])
     task.update!(task_params)
     redirect_to tasks_url, notice: "タスク「#{task.name}」を更新しました。"
   end
 
   def destroy
-    task = Task.find(params[:id])
+    task = current_user.tasks.find(params[:id])
     task.destroy
     redirect_to tasks_url, notice: "タスク「#{task.name}」を削除しました。"
   end
