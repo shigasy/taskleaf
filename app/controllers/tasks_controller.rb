@@ -14,9 +14,20 @@ class TasksController < ApplicationController
     @task = Task.new
   end
 
+  def confirm_new
+    @task = current_user.tasks.new(task_params)
+    render :new unless @task.valid?
+  end
+
   def create
     # @task = Task.new(task_params.merge(user_id: current_user.id)) # インスタンス変数を使う理由はビューに渡すことが出来る。入力内容とエラー箇所を渡せる。
     @task = current_user.tasks.new(task_params) # インスタンス変数を使う理由はビューに渡すことが出来る。入力内容とエラー箇所を渡せる。
+
+    if params[:back].present?
+      render :new
+      return
+    end
+
     if @task.save
       redirect_to tasks_url, notice: "タスク「#{@task.name}」を登録しました。"
     else
