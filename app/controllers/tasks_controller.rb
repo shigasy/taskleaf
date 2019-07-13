@@ -4,7 +4,9 @@ class TasksController < ApplicationController
   def index
     # @tasks = Task.all
     # @tasks = current_user.tasks.order(created_at: :desc) # ログインしているユーザーに紐づくTaskだけ表示
-    @tasks = current_user.tasks.recent # ログインしているユーザーに紐づくTaskだけ表示
+    @q = current_user.tasks.ransack(params[:q])
+    @tasks = @q.result(distinct: true)
+    # @tasks = current_user.tasks.recent # ログインしているユーザーに紐づくTaskだけ表示
   end
 
   def show
