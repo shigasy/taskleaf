@@ -5,6 +5,8 @@ class Task < ApplicationRecord
 
   belongs_to :user
 
+  has_one_attached :image
+
   scope :recent, -> { order(created_at: :desc)}
 
   def self.ransackable_attributes(auth_object = nil)
