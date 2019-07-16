@@ -31,7 +31,7 @@ class TasksController < ApplicationController
     end
 
     if @task.save
-      TaskMailer.create_creation_email(@task).deliver_now
+      TaskMailer.creation_email(@task).deliver_now
       redirect_to tasks_url, notice: "タスク「#{@task.name}」を登録しました。"
     else
       render :new
