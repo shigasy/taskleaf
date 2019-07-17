@@ -5,7 +5,7 @@ class TasksController < ApplicationController
     # @tasks = Task.all
     # @tasks = current_user.tasks.order(created_at: :desc) # ログインしているユーザーに紐づくTaskだけ表示
     @q = current_user.tasks.ransack(params[:q])
-    @tasks = @q.result(distinct: true)
+    @tasks = @q.result(distinct: true).page(params[:page])
     # @tasks = current_user.tasks.recent # ログインしているユーザーに紐づくTaskだけ表示
 
     respond_to do |format|
